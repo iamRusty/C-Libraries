@@ -1,7 +1,11 @@
 #include <stdio.h>
 #include <string.h> /* from string import strlen */
 #include <math.h>   /* from math import pow */
+#include <stdlib.h> /* from stdlib import calloc */
 
+int strtoint(char *num);
+char** split(char *str, char *delim);
+void strmk(char *str_p, char *str, int len);
 
 /*
  *    String to Int function
@@ -28,12 +32,61 @@ int strtoint(char *num) {
     return val * pow(-1, sign);
 }
 
-int main (void) {
-    char try[5] = "-10";
+/*
+ *  String to array of Int
+ */
+char** split(char *str, char *delim) {
+    char **ret = (char **)malloc(1);
 
+    char *token;
+    token = strtok(str, delim);
+
+    int count = 0;
+    while (token != NULL) {
+        strmk(*(ret + count), token, strlen(token));
+        token = strtok(NULL, delim);
+        count++;
+    }
+
+    return ret;
+}
+
+/*
+ *  String allocation
+ */
+void strmk(char *str_p, char *str, int len) {
+    printf("%s\n", str);
+    str_p = (char *)calloc(len + 1, sizeof(char));
+    strcpy(str_p, str);
+    printf("%s\n", str_p);
+}
+
+int main (void) {
+    // strtoint
+    char try[5] = "-10";
     int hello;
     hello = strtoint(try);
-
     printf("%d\n", hello);
+
+    // strmk
+    char *yeyeye;
+    char hellos[4] = "new";
+    strmk(yeyeye, hellos, strlen(hellos));
+
+    // split
+    char yeye[20] = "he he he he ha";
+    char delim[2] = " ";
+    char **fofo;
+    fofo = split(yeye, delim);
+
+    printf("%s\n", *(fofo + 1));
+/*
+    int counter = 0;
+    while (counter < 5) {
+        printf("%s\n", *(fofo + counter));
+        counter++;
+    }
+*/
+
     return 0;
 }
