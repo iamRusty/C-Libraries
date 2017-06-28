@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <string.h> /* from string import strlen */
 #include <math.h>   /* from math import pow */
-#include <stdlib.h> /* from stdlib import calloc */
+#include <stdlib.h> /* from stdlib import calloc, malloc */
 
 int strtoint(char *num);
-char** split(char *str, char *delim);
+char** split(char *str, char *delim, int *elem);
 char *strmk(char *str_p, char *str, int len);
 
 /*
@@ -33,24 +33,31 @@ int strtoint(char *num) {
 }
 
 /*
- *  String to array of Int
+ *  String to array of string
  */
-char** split(char *str, char *delim) {
-    char **ret = (char **)malloc(5 * sizeof(char *));
-    //printf("dp: %li\n", ret);
+char** split(char *str, char *delim, int *elem) {
+    // Initial pointer-to-pointer allocation
+    char **ret = (char **)malloc(1 * sizeof(char *));
 
+    // strtok
     char *token;
     token = strtok(str, delim);
 
+    // Split proper
     int count = 0;
     while (token != NULL) {
-        //printf("sp: %li\n", *(ret + count));
+        // Adjust memory space
+        ret = (char **)realloc(ret, (count + 1) * sizeof(char *));
+
+        // Allocate memory for string and copy it
         *(ret + count) = strmk(*(ret + count), token, strlen(token));
-        //printf("%li %s\n", *(ret + count), *(ret + count));
+
+        // Move to next string
         token = strtok(NULL, delim);
         count++;
     }
 
+    *elem = count;
     return ret;
 }
 
@@ -60,7 +67,6 @@ char** split(char *str, char *delim) {
 char *strmk(char *str_p, char *str, int len) {
     str_p = (char *)calloc(len + 1, sizeof(char));
     strcpy(str_p, str);
-    //printf("%li %s\n", str_p, str_p);
     return(str_p);
 }
 
@@ -77,22 +83,17 @@ int main (void) {
     strmk(yeyeye, hellos, strlen(hellos));
 
     // split
-    char yeye[20] = "he he he he ha";
+    int elem = 0;
+    char yeye[200] = "he he he he ha werwerwre wsd qwe w wr q er";
     char delim[2] = " ";
     char **fofo;
-    fofo = split(yeye, delim);
-
-
-    //printf("dp fofo: %li\n", fofo);
-    //printf("dp fofo val: %li", *fofo);
-    //printf("%s\n", *(fofo + 0));*
+    fofo = split(yeye, delim, &elem);
 
     int counter = 0;
-    while (counter < 5) {
+    while (counter < elem) {
         printf("%s\n", *(fofo + counter));
         counter++;
     }
-
 
     return 0;
 }
