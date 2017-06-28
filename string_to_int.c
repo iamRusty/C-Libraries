@@ -5,7 +5,7 @@
 
 int strtoint(char *num);
 char** split(char *str, char *delim);
-void strmk(char *str_p, char *str, int len);
+char *strmk(char *str_p, char *str, int len);
 
 /*
  *    String to Int function
@@ -36,14 +36,17 @@ int strtoint(char *num) {
  *  String to array of Int
  */
 char** split(char *str, char *delim) {
-    char **ret = (char **)malloc(1);
+    char **ret = (char **)malloc(5 * sizeof(char *));
+    //printf("dp: %li\n", ret);
 
     char *token;
     token = strtok(str, delim);
 
     int count = 0;
     while (token != NULL) {
-        strmk(*(ret + count), token, strlen(token));
+        //printf("sp: %li\n", *(ret + count));
+        *(ret + count) = strmk(*(ret + count), token, strlen(token));
+        //printf("%li %s\n", *(ret + count), *(ret + count));
         token = strtok(NULL, delim);
         count++;
     }
@@ -54,11 +57,11 @@ char** split(char *str, char *delim) {
 /*
  *  String allocation
  */
-void strmk(char *str_p, char *str, int len) {
-    printf("%s\n", str);
+char *strmk(char *str_p, char *str, int len) {
     str_p = (char *)calloc(len + 1, sizeof(char));
     strcpy(str_p, str);
-    printf("%s\n", str_p);
+    //printf("%li %s\n", str_p, str_p);
+    return(str_p);
 }
 
 int main (void) {
@@ -79,14 +82,17 @@ int main (void) {
     char **fofo;
     fofo = split(yeye, delim);
 
-    printf("%s\n", *(fofo + 1));
-/*
+
+    //printf("dp fofo: %li\n", fofo);
+    //printf("dp fofo val: %li", *fofo);
+    //printf("%s\n", *(fofo + 0));*
+
     int counter = 0;
     while (counter < 5) {
         printf("%s\n", *(fofo + counter));
         counter++;
     }
-*/
+
 
     return 0;
 }
