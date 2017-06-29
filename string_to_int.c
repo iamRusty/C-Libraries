@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h> /* from string import strlen */
 #include <math.h>   /* from math import pow */
-#include <stdlib.h> /* from stdlib import calloc, malloc */
+#include <stdlib.h> /* from stdlib import calloc, malloc, realloc */
 
 int stoi(char *num);
 char** split(char *str, char *delim, int *elem);
@@ -59,6 +59,11 @@ char** split(char *str, char *delim, int *elem) {
         count++;
     }
 
+    // Set last element(invisible) as NULL 
+    ret = (char **)realloc(ret, (count + 1) * sizeof(char *));
+    *(ret + count) = NULL;
+
+    // Set return values
     *elem = count;
     return ret;
 }
@@ -75,7 +80,7 @@ int *stoai(char *str, int *elem) {
 
     // Initial array of int allocation
     int *ret;
-    ret = (int *)malloc(split_elem * sizeof(int));
+    ret = (int *)malloc((split_elem + 1) * sizeof(int));
 
     // Loop stoi
     int count = 0;
