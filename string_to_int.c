@@ -3,14 +3,14 @@
 #include <math.h>   /* from math import pow */
 #include <stdlib.h> /* from stdlib import calloc, malloc */
 
-int strtoint(char *num);
+int stoi(char *num);
 char** split(char *str, char *delim, int *elem);
 char *strmk(char *str_p, char *str, int len);
 
 /*
  *    String to Int function
  */
-int strtoint(char *num) {
+int stoi(char *num) {
     // Get string length
     int len = strlen(num);
 
@@ -62,6 +62,31 @@ char** split(char *str, char *delim, int *elem) {
 }
 
 /*
+ *  String to array of int
+ */
+int *stoai(char *str, int *elem) {
+    char **split_p;
+    int split_elem;
+
+    // Default delimiter is space " "
+    split_p = split(str, " ", &split_elem);
+
+    // Initial array of int allocation
+    int *ret;
+    ret = (int *)malloc(split_elem * sizeof(int));
+
+    // Loop stoi
+    int count = 0;
+    while (count < split_elem) {
+        ret[count] = stoi(*(split_p + count));
+        count++;
+    }
+
+    *elem = split_elem;
+    return ret;
+}
+
+/*
  *  String allocation
  */
 char *strmk(char *str_p, char *str, int len) {
@@ -71,10 +96,10 @@ char *strmk(char *str_p, char *str, int len) {
 }
 
 int main (void) {
-    // strtoint
+    // stoi
     char try[5] = "-10";
     int hello;
-    hello = strtoint(try);
+    hello = stoi(try);
     printf("%d\n", hello);
 
     // strmk
@@ -84,7 +109,7 @@ int main (void) {
 
     // split
     int elem = 0;
-    char yeye[200] = "he he he he ha werwerwre wsd qwe w wr q er";
+    char yeye[200] = "he a o wyw w q";
     char delim[2] = " ";
     char **fofo;
     fofo = split(yeye, delim, &elem);
@@ -93,6 +118,18 @@ int main (void) {
     while (counter < elem) {
         printf("%s\n", *(fofo + counter));
         counter++;
+    }
+
+    // stoai
+    char helloss[20] = "1 2 3";
+    int elem2;
+    int *hehe;
+    hehe = stoai(helloss, &elem2);
+
+    int counter2 = 0;
+    while (counter2 < elem2) {
+        printf("%d\n", hehe[counter2]);
+        counter2++;
     }
 
     return 0;
