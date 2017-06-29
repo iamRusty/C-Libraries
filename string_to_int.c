@@ -6,6 +6,8 @@
 int stoi(char *num);
 char** split(char *str, char *delim, int *elem);
 char *strmk(char *str_p, char *str, int len);
+int *stoai(char *str, int *elem);
+int *astoai(char **str_p, int elem);
 
 /*
  *    String to Int function
@@ -87,6 +89,25 @@ int *stoai(char *str, int *elem) {
 }
 
 /*
+ *  Array of string to array of int
+ */
+int *astoai(char **str_p, int elem) {
+
+    // Initial array of int allocation
+    int *ret;
+    ret = (int *)malloc(elem * sizeof(int));
+    
+    // astoai proper
+    int ct = 0;
+    while (ct < elem) {
+        ret[ct] = stoi(*(str_p + ct));
+        ct++;
+    }
+
+    return ret;
+}
+
+/*
  *  String allocation
  */
 char *strmk(char *str_p, char *str, int len) {
@@ -97,19 +118,22 @@ char *strmk(char *str_p, char *str, int len) {
 
 int main (void) {
     // stoi
+    printf("\nstoi\n");
     char try[5] = "-10";
     int hello;
     hello = stoi(try);
     printf("%d\n", hello);
 
     // strmk
+    printf("\nstrmk\n");
     char *yeyeye;
     char hellos[4] = "new";
     strmk(yeyeye, hellos, strlen(hellos));
 
     // split
+    printf("\nsplit\n");
     int elem = 0;
-    char yeye[200] = "he a o wyw w q";
+    char yeye[200] = "12 1 2 -1 5 -100";
     char delim[2] = " ";
     char **fofo;
     fofo = split(yeye, delim, &elem);
@@ -121,6 +145,7 @@ int main (void) {
     }
 
     // stoai
+    printf("\nstoai\n");
     char helloss[20] = "1 2 3";
     int elem2;
     int *hehe;
@@ -130,6 +155,16 @@ int main (void) {
     while (counter2 < elem2) {
         printf("%d\n", hehe[counter2]);
         counter2++;
+    }
+
+    // astoai
+    printf("\nastoai\n");
+    int *hehehe;
+    hehehe = astoai(fofo, elem);
+    int counter3 = 0;
+    while (counter3 < elem) {
+        printf("%d\n", hehehe[counter3]);
+        counter3++;
     }
 
     return 0;
