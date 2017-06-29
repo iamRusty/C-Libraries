@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h> /* from string import strlen */
 #include <math.h>   /* from math import pow */
-#include <stdlib.h> /* from stdlib import calloc, malloc, realloc */
+#include <stdlib.h> /* from stdlib import calloc, malloc, realloc, free, NULL */
 
 int stoi(char *num);
 char** split(char *str, char *delim, int *elem);
@@ -133,7 +133,9 @@ int main (void) {
     printf("\nstrmk\n");
     char *yeyeye;
     char hellos[4] = "new";
-    strmk(yeyeye, hellos, strlen(hellos));
+    yeyeye = strmk(yeyeye, hellos, strlen(hellos));
+    printf("%s\n", yeyeye);
+    free(yeyeye);
 
     // split
     printf("\nsplit\n");
@@ -146,8 +148,10 @@ int main (void) {
     int counter = 0;
     while (counter < elem) {
         printf("%s\n", *(fofo + counter));
+        //free(*(fofo + counter));  // FREE ALLOC
         counter++;
     }
+    //free(fofo); // FREE ALLOC
 
     // stoai
     printf("\nstoai\n");
@@ -158,9 +162,10 @@ int main (void) {
 
     int counter2 = 0;
     while (counter2 < elem2) {
-        printf("%d\n", hehe[counter2]);
+        printf("%d\n", hehe[counter2]); // FREE ALLOC
         counter2++;
     }
+    free(hehe); // FREE ALLOC
 
     // astoai
     printf("\nastoai\n");
@@ -169,8 +174,11 @@ int main (void) {
     int counter3 = 0;
     while (counter3 < elem) {
         printf("%d\n", hehehe[counter3]);
+        free(*(fofo + counter3));  // FREE ALLOC
         counter3++;
     }
-
+    free(*(fofo + counter3));  // FREE ALLOC
+    free(hehehe);   // FREE ALLOC
+    
     return 0;
 }
