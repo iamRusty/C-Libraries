@@ -21,7 +21,8 @@ int stoi(char *num) {
     if (num[0] == '-')
         sign = 1;
 
-    // Get value starting from ones digit
+/*
+    // Get value starting LSB to MSB
     int count = len - 1,
         val = 0,
         mult = 1;
@@ -29,6 +30,15 @@ int stoi(char *num) {
         val = val + (num[count] - '0') * mult;
         count--;
         mult *= 10;
+    }
+*/
+
+    // Get the value starting from MSB to LSB
+    int count = sign,
+        val = 0;
+    while (count < len) {
+        val = val * 10 + (num[count] - '0');
+        count++;
     }
 
     return val * pow(-1, sign);
